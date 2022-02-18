@@ -1,22 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { View, SafeAreaView, TextInput, Text } from "react-native";
+import { View, SafeAreaView, TextInput, Text, Pressable } from "react-native";
 import styled, { ThemeProvider } from "styled-components/native";
-
-const Theme = {
-    light: {
-        background: "#ebebe3",
-        text: "#2b2b28",
-        textplaceholder: "#4a4a48",
-        border: "#c19898",
-    },
-    dark: {
-        background: "#041562",
-        text: "#EEEEEE",
-        textplaceholder: "#11468F",
-        border: "#DA1212",
-    },
-};
+import { NativeRouter, Route, Link, Routes } from "react-router-native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const StyledContainer = styled.SafeAreaView`
     background-color: ${(props) => props.theme.background};
@@ -49,45 +37,151 @@ const StyledContent = styled.View`
     justify-content: center;
 `;
 
-// const Input = styled.TextInput.attrs({
-//     placeholderTextColor: "red",
-// });
-
 const StyledTextIpnut = styled.TextInput`
     width: 50%;
-    margin: 5%;
+    margin: 2%;
     padding: 10px;
+    height: 40px;
     border: 1px solid ${(props) => props.theme.border};
     color: ${(props) => props.theme.text};
 `;
 
+const ButtonStyled = styled.Pressable`
+    width: 50%;
+    text-align: center;
+    background-color: ${(props) => props.theme.buttonBackground};
+
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const ButtonStyledText = styled.Text`
+    color: ${(props) => props.theme.buttonText};
+`;
+
+const storeData = async (value) => {
+    try {
+        await AsyncStorage.setItem("accesToken", value);
+    } catch (e) {
+        // saving error
+    }
+};
+
+const getData = async (key) => {
+    try {
+        const value = await AsyncStorage.getItem(key);
+        if (value !== null) {
+            console.log(value);
+            // value previously stored
+        }
+    } catch (e) {
+        // error reading value
+    }
+};
+
+const HomePage = ({ theme }) => {
+    const [login, onChangeLogin] = useState("");
+    const [load, setLoad] = useState(false);
+    const [access_token, setAccessToken] = useState(null);
+    const client_id = "";
+    const client_secret = "";
+    const Search = () => {
+        setLoad(true);
+        const data = axios
+            .post(`https://api.intra.42.fr/oauth/token/`, {
+                client_id: client_id,
+                client_secret: client_secret,
+                grant_type: "client_credentials",
+            })
+            .then((res) => {
+                const {
+                    data: {
+                        access_token: access_token,
+                        created_at: created_at,
+                        expires_in: expires_in,
+                    },
+                } = res;
+                console.log(res);
+                console.log(created_at, expires_in);
+                setAccessToken(access_token);
+                console.log(access_token);
+                console.log(Date.now() / 1000);
+                // AsyncStorage.setItem("accesToken", token).then(() => {
+                //     AsyncStorage.getItem("accesToken").then((token) => {
+                //         console.log(token);
+                // });
+                // });
+                storeData(access_token);
+                setLoad(false);
+                getData("accesToken");
+            })
+            .catch((err) => {
+                setLoad(false);
+            });
+    };
+    return (
+        <StyledContent>
+            {/* <StyledNavText>Login</StyledNavText> */}
+            <StyledTextIpnut
+                onChangeText={onChangeLogin}
+                value={login}
+                placeholder="Login"
+                placeholderTextColor={theme ? "#11468F" : "#DA1212"}
+            ></StyledTextIpnut>
+            <ButtonStyled>
+                <ButtonStyledText onPress={Search}>Search</ButtonStyledText>
+            </ButtonStyled>
+        </StyledContent>
+    );
+};
+
+const Details = () => {
+    return (
+        <StyledContent>
+            <StyledNavText>Details</StyledNavText>
+        </StyledContent>
+    );
+};
+
 export default function App() {
-    const [text, onChangeText] = useState("Useless Text");
     const [theme, setTheme] = useState(true);
+    const [route, setRoute] = useState("/");
+    const [isOn, setIsOn] = useState(false);
     return (
         <ThemeProvider theme={theme ? Theme.light : Theme.dark}>
-            <StyledContainer>
-                <StyledNav>
-                    <StyledNavText>logo</StyledNavText>
-                    <View>
-                        <StyledNavText
+            <NativeRouter>
+                <StyledContainer>
+                    <StyledNav>
+                        <Link
+                            to={route}
                             onPress={() => {
-                                console.log("bigola");
-                                setTheme(!theme);
+                                route === "/"
+                                    ? setRoute("/details")
+                                    : setRoute("/");
                             }}
                         >
-                            Switcher
-                        </StyledNavText>
-                    </View>
-                </StyledNav>
-                <StyledContent>
-                    <StyledNavText>{text}</StyledNavText>
-                    <StyledTextIpnut
-                        onChangeText={onChangeText}
-                        value={text}
-                    ></StyledTextIpnut>
-                </StyledContent>
-            </StyledContainer>
+                            <StyledNavText>logo</StyledNavText>
+                        </Link>
+
+                        <View>
+                            <StyledNavText
+                                onPress={() => {
+                                    console.log("bigola");
+                                    setTheme(!theme);
+                                }}
+                            >
+                                switch
+                            </StyledNavText>
+                        </View>
+                    </StyledNav>
+                    <Routes>
+                        <Route path="/" element={<HomePage theme={theme} />} />
+                        <Route path="/details" element={<Details />} />
+                    </Routes>
+                </StyledContainer>
+            </NativeRouter>
         </ThemeProvider>
     );
 }
