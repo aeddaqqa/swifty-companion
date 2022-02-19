@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Button } from "react-native";
 import { useState } from "react";
 
 const StyledNav = styled.View`
@@ -12,13 +11,8 @@ const StyledNav = styled.View`
     justify-content: space-between;
 `;
 
-const StyledTextNav = styled.Text`
-    font-size: 20px;
-    background-color: #f5f000;
-`;
-
 const StyledLogo = styled.Image`
-    width: 100%
+    width: 100%;
     height: 100%;
 `;
 
@@ -29,50 +23,51 @@ const StyledLogoBox = styled.View`
 `;
 
 const StyledSwitcher = styled.View`
+    border: solid ${(props) => props.theme.secondaryColor};
+    border-width: 1px;
     width: 100%;
     height: 80%;
     background-color: #000000;
     border-radius: 50px;
-    /* position: relative; */
     display: flex;
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    background-color: #e2dae2;
 `;
 
 const StyledSwitcherIconBox = styled.View`
     width: 50%;
     height: 100%;
-    background-color: #fa1a23;
+    background-color: ${(props) => props.theme.primaryColor};
     display: flex;
     align-items: center;
     justify-content: center;
 `;
 
 const StyledSwitcherBox = styled.Pressable`
-    width: 100px;
+    width: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
+    height: 50px;
     padding: 5px;
-    background: #ffffff;
     position: relative;
 `;
 
 const StyledSwitcherCercle = styled.View`
     width: 50%;
-    height: 80%;
-    background-color: #fdd0ff;
+    height: 90%;
+    background-color: ${(props) => props.theme.secondaryColor};
     position: absolute;
-    left: ${(props) => (props.isDarkMode ? "5%" : "auto")};
-    right: ${(props) => (props.isDarkMode ? "auto" : "5%")};
+    left: 6%;
     border-radius: 80px;
+    transform: translateX(${(props) => (props.isDarkMode ? "0" : "40px")});
 `;
 
-const NavBar = () => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+const NavBar = ({ theme, setTheme, iconColor }) => {
+    // const [isDarkMode, setIsDarkMode] = useState(true);
     return (
         <StyledNav>
             <StyledLogoBox>
@@ -85,18 +80,19 @@ const NavBar = () => {
             <StyledSwitcherBox
                 onPress={() => {
                     console.log("bigola");
-                    setIsDarkMode(!isDarkMode);
+                    setTheme(!theme);
+                    // setIsDarkMode(!isDarkMode);
                 }}
             >
                 <StyledSwitcher>
                     <StyledSwitcherIconBox>
-                        <Icon name="moon-o" size={20} color="#fdaf00" />
+                        <Icon name="moon-o" size={20} color={iconColor} />
                     </StyledSwitcherIconBox>
                     <StyledSwitcherIconBox>
-                        <Icon name="sun-o" size={20} color="#fdaf00" />
+                        <Icon name="sun-o" size={20} color={iconColor} />
                     </StyledSwitcherIconBox>
                 </StyledSwitcher>
-                <StyledSwitcherCercle isDarkMode={isDarkMode} />
+                <StyledSwitcherCercle isDarkMode={theme} />
             </StyledSwitcherBox>
         </StyledNav>
     );
