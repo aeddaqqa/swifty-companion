@@ -1,12 +1,13 @@
-import { ThemeProvider } from "styled-components/native";
+import styled, { ThemeProvider } from "styled-components/native";
 import { NativeRouter, Route, Routes } from "react-router-native";
 import Home from "./src/pages/HomePage/HomePage.js";
 import Details from "./src/pages/DetailsPage/DetailsPage.js";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { Theme } from "./src/utils/constants.js";
 import NavBar from "./src/components/Navbar/NavBar.js";
 import { StatusBar, Platform } from "react-native";
 import { useState } from "react";
+
 const StyledApp = styled.SafeAreaView`
     flex: 1;
     background-color: ${(props) => props.theme.backgroundAPP};
@@ -21,7 +22,7 @@ export default function App() {
             <NativeRouter>
                 <StyledApp>
                     <NavBar
-                        theme={theme}
+                        theme={theme ? 45 : 0}
                         setTheme={setTheme}
                         iconColor={Theme.light.tertiaryColor}
                     />

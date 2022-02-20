@@ -1,73 +1,31 @@
-import styled from "styled-components";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useState } from "react";
+import {
+    useSharedValue,
+    useAnimatedStyle,
+    withSpring,
+} from "react-native-reanimated";
 
-const StyledNav = styled.View`
-    width: 100%;
-    padding: 10px;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: space-between;
-`;
-
-const StyledLogo = styled.Image`
-    width: 100%;
-    height: 100%;
-`;
-
-const StyledLogoBox = styled.View`
-    width: 60px;
-    height: 60px;
-    padding: 5px;
-`;
-
-const StyledSwitcher = styled.View`
-    border: solid ${(props) => props.theme.secondaryColor};
-    border-width: 1px;
-    width: 100%;
-    height: 80%;
-    background-color: #000000;
-    border-radius: 50px;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background-color: #e2dae2;
-`;
-
-const StyledSwitcherIconBox = styled.View`
-    width: 50%;
-    height: 100%;
-    background-color: ${(props) => props.theme.primaryColor};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const StyledSwitcherBox = styled.Pressable`
-    width: 90px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    padding: 5px;
-    position: relative;
-`;
-
-const StyledSwitcherCercle = styled.View`
-    width: 50%;
-    height: 90%;
-    background-color: ${(props) => props.theme.secondaryColor};
-    position: absolute;
-    left: 6%;
-    border-radius: 80px;
-    transform: translateX(${(props) => (props.isDarkMode ? "0" : "40px")});
-`;
+import {
+    StyledNav,
+    StyledLogo,
+    StyledLogoBox,
+    StyledSwitcher,
+    StyledSwitcherIconBox,
+    StyledSwitcherBox,
+    StyledSwitcherCercle,
+} from "./NavBar.Style";
+import { useEffect, useState } from "react";
 
 const NavBar = ({ theme, setTheme, iconColor }) => {
-    // const [isDarkMode, setIsDarkMode] = useState(true);
+    const transX = useSharedValue(0);
+    const reanimatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateX: transX.value }],
+        };
+    });
+    useEffect(() => {
+        transX.value = withSpring(theme);
+    }, []);
     return (
         <StyledNav>
             <StyledLogoBox>
@@ -79,9 +37,8 @@ const NavBar = ({ theme, setTheme, iconColor }) => {
             </StyledLogoBox>
             <StyledSwitcherBox
                 onPress={() => {
-                    console.log("bigola");
+                    transX.value = withSpring(theme);
                     setTheme(!theme);
-                    // setIsDarkMode(!isDarkMode);
                 }}
             >
                 <StyledSwitcher>
@@ -92,7 +49,10 @@ const NavBar = ({ theme, setTheme, iconColor }) => {
                         <Icon name="sun-o" size={20} color={iconColor} />
                     </StyledSwitcherIconBox>
                 </StyledSwitcher>
-                <StyledSwitcherCercle isDarkMode={theme} />
+                <StyledSwitcherCercle
+                    style={[reanimatedStyle]}
+                    isDarkMode={theme}
+                />
             </StyledSwitcherBox>
         </StyledNav>
     );

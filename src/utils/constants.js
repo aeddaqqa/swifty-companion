@@ -7,7 +7,7 @@ export const Theme = {
     },
     dark: {
         backgroundAPP: "#0E3047",
-        primaryColor: "#F9B208",
+        primaryColor: "#ECB365",
         secondaryColor: "#F2F7FF",
         tertiaryColor: "#0E3047",
     },
