@@ -14,8 +14,8 @@ import {
     StyledSwitcherBox,
     StyledSwitcherCercle,
 } from "./NavBar.Style";
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
+import { Link } from "react-router-native";
 const NavBar = ({ theme, setTheme, iconColor }) => {
     const transX = useSharedValue(0);
     const reanimatedStyle = useAnimatedStyle(() => {
@@ -24,16 +24,18 @@ const NavBar = ({ theme, setTheme, iconColor }) => {
         };
     });
     useEffect(() => {
-        transX.value = withSpring(theme);
+        transX.value = withSpring(0);
     }, []);
     return (
         <StyledNav>
             <StyledLogoBox>
-                <StyledLogo
-                    source={{
-                        uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/42_Logo.svg/1200px-42_Logo.svg.png",
-                    }}
-                />
+                <Link to="/">
+                    <StyledLogo
+                        source={{
+                            uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/42_Logo.svg/1200px-42_Logo.svg.png",
+                        }}
+                    />
+                </Link>
             </StyledLogoBox>
             <StyledSwitcherBox
                 onPress={() => {
