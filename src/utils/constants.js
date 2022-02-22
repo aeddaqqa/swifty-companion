@@ -1,14 +1,14 @@
 export const Theme = {
     light: {
         backgroundAPP: "#ffffff",
-        primaryColor: "#98BAE7",
-        secondaryColor: "#9AD0EC",
-        tertiaryColor: "#FFFCDC",
+        primaryColor: "#305973",
+        secondaryColor: "#ef7e56",
+        tertiaryColor: "#ef7e56",
     },
     dark: {
         backgroundAPP: "#0E3047",
-        primaryColor: "#ECB365",
-        secondaryColor: "#F2F7FF",
-        tertiaryColor: "#0E3047",
+        primaryColor: "#f9f9f9",
+        secondaryColor: "#ef7e56",
+        tertiaryColor: "#305973",
     },
 };

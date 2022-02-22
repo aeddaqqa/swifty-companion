@@ -25,7 +25,7 @@ const Home = () => {
         setLoad(true);
         if (text) {
             axios
-                .get(`https://api.intra.42.fr/v2/users/${text}`, {
+                .get(`https://api.intra.42.fr/v2/users/${text.toLowerCase()}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken.access_token}`,
                     },

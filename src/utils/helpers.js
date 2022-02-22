@@ -21,7 +21,6 @@ const getDataFromStorage = async () => {
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
         console.log(e);
-        // error reading value
     }
 };
 
