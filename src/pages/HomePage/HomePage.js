@@ -25,11 +25,14 @@ const Home = () => {
         setLoad(true);
         if (text) {
             axios
-                .get(`https://api.intra.42.fr/v2/users/${text}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken.access_token}`,
-                    },
-                })
+                .get(
+                    `https://api.intra.42.fr/v2/users/${text.toLocaleLowerCase()}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken.access_token}`,
+                        },
+                    }
+                )
                 .then((res) => console.log(res))
                 .catch((err) => console.log(err));
         }
