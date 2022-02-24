@@ -4,6 +4,8 @@ const client_id =
 const client_secret =
     "f59565541acaf37c558f940461118e7b72322b36871b9618906c74d5a8fa884a";
 
+const url = "https://api.intra.42.fr/v2/users/";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const storeDataToStorage = async (value) => {
@@ -21,7 +23,6 @@ const getDataFromStorage = async () => {
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
         console.log(e);
-        // error reading value
     }
 };
 
@@ -62,5 +63,34 @@ export const getAccessToken = () => {
                 })
                 .catch((err) => reject(err));
         }
+    });
+};
+
+export const getUserData = (login) => {
+    return new Promise((resolve, reject) => {
+        getNewAccessToken().then((res) => {
+            const token = res.access_token;
+            axios
+                .get(`${url}${login.toLowerCase()}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => {
+                    const userData = { ...res.data };
+                    // resolve(res.data);
+                    axios
+                        .get(`${url}${res.data.id}/coalitions`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        })
+                        .then((res) => {
+                            resolve({ user: userData, coalition: res.data });
+                        })
+                        .catch((err) => reject(err.response));
+                })
+                .catch((err) => reject(err));
+        });
     });
 };

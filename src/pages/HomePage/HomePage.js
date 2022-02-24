@@ -7,34 +7,30 @@ import {
     StyledFormSubmit,
     StyledFormSubmitText,
 } from "./HomePage.Style";
-import { Link } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import { useEffect, useState } from "react";
-import { getAccessToken } from "../../utils/helpers";
+import { getAccessToken, getUserData } from "../../utils/helpers";
 import axios from "axios";
 
 const Home = () => {
+    let navigate = useNavigate();
     const [accessToken, setAccessToken] = useState(null);
     const [load, setLoad] = useState(true);
     const [text, setText] = useState("");
-    useEffect(() => {
-        getAccessToken().then((res) => {
-            setAccessToken(res);
-        });
-    }, []);
+    // useEffect(() => {
+    //     getAccessToken().then((res) => {
+    //         setAccessToken(res);
+    //     });
+    // }, []);
     const getUser = () => {
         setLoad(true);
         if (text) {
-            axios
-                .get(
-                    `https://api.intra.42.fr/v2/users/${text.toLocaleLowerCase()}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken.access_token}`,
-                        },
-                    }
-                )
-                .then((res) => console.log(res))
-                .catch((err) => console.log(err));
+            getUserData(text)
+                .then((res) => {
+                    // console.log(res);
+                    navigate("/details", { state: res });
+                })
+                .catch((err) => console.log(err.response));
         }
         setLoad(false);
     };
@@ -51,7 +47,10 @@ const Home = () => {
                     value={text}
                 />
                 <StyledFormSubmit>
-                    <Link to="/details">
+                    <Link
+                        to="/details"
+                        // to={{ path: "/details", state: { bigola: "makinch" } }}
+                    >
                         <StyledFormSubmitText onPress={getUser}>
                             Search
                         </StyledFormSubmitText>

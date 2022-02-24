@@ -1,5 +1,5 @@
 import styled, { ThemeProvider } from "styled-components/native";
-import { NativeRouter, Route, Routes } from "react-router-native";
+import { NativeRouter, Route, Routes, useNavigate } from "react-router-native";
 import Home from "./src/pages/HomePage/HomePage.js";
 import Details from "./src/pages/DetailsPage/DetailsPage.js";
 // import styled from "styled-components";
@@ -7,6 +7,7 @@ import { Theme } from "./src/utils/constants.js";
 import NavBar from "./src/components/Navbar/NavBar.js";
 import { StatusBar, Platform } from "react-native";
 import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
 
 const StyledApp = styled.SafeAreaView`
     flex: 1;

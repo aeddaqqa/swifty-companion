@@ -1,47 +1,66 @@
 import { useEffect } from "react";
-import Animated, {
-    useSharedValue,
-    useAnimatedStyle,
-    withTiming,
-    withSpring,
-    withRepeat,
-} from "react-native-reanimated";
+import { useLocation } from "react-router-native";
+// import Animated, {
+//     useSharedValue,
+//     useAnimatedStyle,
+//     withTiming,
+//     withSpring,
+//     withRepeat,
+// } from "react-native-reanimated";
 import styled from "styled-components/native";
 
 const StyledView = styled.View`
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: -5;
+    /* background-color: #fff034; */
+    width: 100%;
+    /* height: 100%; */
+    position: absolute;
+    top: 0;
+    left: 0;
 `;
 
-const StyledAnimation = styled(Animated.View)``;
+const StyledHeaderCoalition = styled.ImageBackground`
+    height: 500px;
+    width: 100%;
+    /* background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right; */
+    /* background-color: #11f034; */
+    position: relative;
+`;
 
-const Details = () => {
-    const progress = useSharedValue(1);
-    const scale = useSharedValue(1);
-    const reanimatedStyle = useAnimatedStyle(() => {
-        return {
-            opacity: progress.value,
-            transform: [{ scale: scale.value }],
-        };
-    }, []);
-    useEffect(() => {
-        progress.value = withTiming(0.2, { duration: 5000 });
-        scale.value = withRepeat(withSpring(2, { duration: 5000 }), 10, true);
-    }, []);
+const StyledHeaderUser = styled.View`
+    height: 200px;
+    width: 50%;
+    background-color: #f034;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+`;
+const StyledHeaderCoealLogo = styled.View`
+    height: 200px;
+    width: 50%;
+    background-color: #f034;
+`;
+const StyledHeader = styled.View``;
+
+const Details = (props) => {
+    const { state } = useLocation();
+    console.log(state);
+    console.log(state.coalition[0].cover_url);
     return (
         <StyledView>
-            <StyledAnimation
-                style={[
-                    {
-                        height: 100,
-                        width: 100,
-                        backgroundColor: "rgba(255, 0, 255, 1)",
-                    },
-                    reanimatedStyle,
-                ]}
-            />
+            <StyledHeaderCoalition
+                style={{
+                    resizeMode: "cover",
+                    // width: 3,
+                }}
+                // source={require(`${state.coalition[0].cover_url}`)}
+                source={{ uri: state.coalition[0].cover_url }}
+            >
+                <StyledHeaderUser />
+            </StyledHeaderCoalition>
         </StyledView>
     );
 };

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import Animated from "react-native-reanimated";
+// import Animated from "react-native-reanimated";
 export const StyledNav = styled.View`
     width: 100%;
     padding: 10px;
@@ -11,7 +11,7 @@ export const StyledNav = styled.View`
 
 export const StyledLogo = styled.Image`
     width: 100%;
-    height: 100%;
+    height: 60px;
 `;
 
 export const StyledLogoBox = styled.View`
@@ -54,7 +54,8 @@ export const StyledSwitcherBox = styled.Pressable`
     position: relative;
 `;
 
-export const StyledSwitcherCercle = styled(Animated.View)`
+// export const StyledSwitcherCercle = styled(Animated.View)`
+export const StyledSwitcherCercle = styled.View`
     width: 50%;
     height: 90%;
     background-color: ${(props) => props.theme.secondaryColor};
