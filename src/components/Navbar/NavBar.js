@@ -1,9 +1,9 @@
 import Icon from "react-native-vector-icons/FontAwesome";
-// import {
-//     useSharedValue,
-//     useAnimatedStyle,
-//     withSpring,
-// } from "react-native-reanimated";
+import {
+    useSharedValue,
+    useAnimatedStyle,
+    withSpring,
+} from "react-native-reanimated";
 
 import {
     StyledNav,
@@ -17,15 +17,15 @@ import {
 import { useEffect } from "react";
 import { Link } from "react-router-native";
 const NavBar = ({ theme, setTheme, iconColor }) => {
-    // const transX = useSharedValue(0);
-    // const reanimatedStyle = useAnimatedStyle(() => {
-    //     return {
-    //         transform: [{ translateX: transX.value }],
-    //     };
-    // });
-    // useEffect(() => {
-    //     transX.value = withSpring(0);
-    // }, []);
+    const transX = useSharedValue(0);
+    const reanimatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateX: transX.value }],
+        };
+    });
+    useEffect(() => {
+        transX.value = withSpring(0);
+    }, []);
     return (
         <StyledNav>
             <StyledLogoBox>
@@ -39,7 +39,7 @@ const NavBar = ({ theme, setTheme, iconColor }) => {
             </StyledLogoBox>
             <StyledSwitcherBox
                 onPress={() => {
-                    // transX.value = withSpring(theme);
+                    transX.value = withSpring(theme);
                     setTheme(!theme);
                 }}
             >
@@ -52,7 +52,7 @@ const NavBar = ({ theme, setTheme, iconColor }) => {
                     </StyledSwitcherIconBox>
                 </StyledSwitcher>
                 <StyledSwitcherCercle
-                    // style={[reanimatedStyle]}
+                    style={[reanimatedStyle]}
                     isDarkMode={theme}
                 />
             </StyledSwitcherBox>

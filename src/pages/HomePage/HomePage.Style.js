@@ -45,3 +45,8 @@ export const StyledFormSubmitText = styled.Text`
     font-size: 16px;
     color: ${(props) => props.theme.tertiaryColor};
 `;
+
+export const StyledLoader = styled.ActivityIndicator`
+    width: 100px;
+    height: 200px;
+`;

@@ -66,9 +66,68 @@ export const getAccessToken = () => {
     });
 };
 
+const parseData = ({ user, coalition }) => {
+    const {
+        login,
+        correction_point,
+        location,
+        image_url,
+        wallet,
+        projects_users,
+        cursus_users,
+    } = user;
+
+    let data = [];
+    let elem = coalition.length;
+    // console.log(cursus_users);
+    cursus_users.reverse().forEach((cursus, index) => {
+        const {
+            skills,
+            grade,
+            level,
+            cursus: { name, id },
+        } = cursus;
+        let coalitionData;
+        if (elem > 0 && grade != null) {
+            coalitionData = {
+                hascoalition: true,
+                image_url: coalition[coalition.length - elem].image_url,
+                name: coalition[coalition.length - elem].name,
+                color: coalition[coalition.length - elem].color,
+                score: coalition[coalition.length - elem].score,
+            };
+            elem--;
+        } else {
+            coalitionData = {
+                hascoalition: false,
+            };
+        }
+        let projects = projects_users?.filter((project) =>
+            project.cursus_ids.find((element) => element === id)
+        );
+        data.push({
+            name,
+            level,
+            grade,
+            skills,
+            id,
+            coalition: coalitionData,
+            projects,
+        });
+    });
+    return {
+        login,
+        correction_point,
+        location,
+        image_url,
+        wallet,
+        cursus: data,
+    };
+};
+
 export const getUserData = (login) => {
     return new Promise((resolve, reject) => {
-        getNewAccessToken().then((res) => {
+        getAccessToken().then((res) => {
             const token = res.access_token;
             axios
                 .get(`${url}${login.toLowerCase()}`, {
@@ -77,8 +136,7 @@ export const getUserData = (login) => {
                     },
                 })
                 .then((res) => {
-                    const userData = { ...res.data };
-                    // resolve(res.data);
+                    const userData = res.data;
                     axios
                         .get(`${url}${res.data.id}/coalitions`, {
                             headers: {
@@ -86,7 +144,11 @@ export const getUserData = (login) => {
                             },
                         })
                         .then((res) => {
-                            resolve({ user: userData, coalition: res.data });
+                            result = parseData({
+                                user: userData,
+                                coalition: res.data,
+                            });
+                            resolve(result);
                         })
                         .catch((err) => reject(err.response));
                 })
