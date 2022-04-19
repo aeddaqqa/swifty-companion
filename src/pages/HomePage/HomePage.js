@@ -45,14 +45,9 @@ const Home = () => {
                         value={text}
                     />
                     <StyledFormSubmit>
-                        <Link
-                            to="/details"
-                            // to={{ path: "/details", state: { bigola: "makinch" } }}
-                        >
-                            <StyledFormSubmitText onPress={getUser}>
-                                Search
-                            </StyledFormSubmitText>
-                        </Link>
+                        <StyledFormSubmitText onPress={getUser}>
+                            Search
+                        </StyledFormSubmitText>
                     </StyledFormSubmit>
                 </StyledFormBox>
             ) : (
