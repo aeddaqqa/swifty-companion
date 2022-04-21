@@ -144,6 +144,7 @@ export const getUserData = (login) => {
                             },
                         })
                         .then((res) => {
+                            console.log(res);
                             result = parseData({
                                 user: userData,
                                 coalition: res.data,
