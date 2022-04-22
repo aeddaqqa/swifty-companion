@@ -24,7 +24,7 @@ export const StyledProfileImageContainer = styled.View`
 
 export const StyledProfileImage = styled.ImageBackground`
     width: 80%;
-    height: 80%;
+    height: 100%;
     border: 3px solid black;
 `;
 
@@ -39,6 +39,19 @@ export const StyledInfoBox = styled.View`
 
 export const StyledText = styled.Text`
     font-size: 16px;
+    color: ${(props) => props.theme.primaryColor};
+    /* padding: 5px; */
+`;
+
+export const StyledFlatList = styled.Text`
+    font-size: 16px;
+    color: ${(props) => props.theme.primaryColor};
+    /* padding: 5px; */
+`;
+
+export const StyledTextLevel = styled.Text`
+    font-size: 16px;
+    color: ${(props) => props.theme.primaryColor};
     /* padding: 5px; */
 `;
 
@@ -79,6 +92,6 @@ export const StyledFull = styled.View`
     left: 0;
     width: ${(props) => props.level}%;
     height: 100%;
-    background-color: #00f000;
+    background-color: ${(props) => props.theme.primaryColor};
     z-index: -10;
 `;

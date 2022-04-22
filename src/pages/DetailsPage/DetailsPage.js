@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import SwitchSelector from "react-native-switch-selector";
 import SelectDropdown from "react-native-select-dropdown";
 import { SvgUri } from "react-native-svg";
+import { Theme } from "../../utils/constants";
 
 const Skills = ({ item }) => (
     <View style={styles.item}>
@@ -228,9 +229,6 @@ const styles = StyleSheet.create({
 
         elevation: 5,
     },
-    title: {
-        // fontSize: 32,
-    },
     cursusContainer: {
         marginBottom: 20,
         alignItems: "center",
@@ -238,8 +236,6 @@ const styles = StyleSheet.create({
         width: "100%",
         display: "flex",
         flexDirection: "row",
-        // flexWrap: "wrap",
-        // margin: "0% auto",
     },
 });
 
