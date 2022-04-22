@@ -10,6 +10,8 @@ import {
     StyledPikala,
     StyledLevel,
     StyledFull,
+    StyledTextLevel,
+    StyledFlatList,
 } from "./DetailsPage.Style";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { useEffect, useState } from "react";
@@ -20,23 +22,23 @@ import { Theme } from "../../utils/constants";
 
 const Skills = ({ item }) => (
     <View style={styles.item}>
-        <StyledText>{item.name}</StyledText>
-        <StyledText>{item.level}</StyledText>
+        <StyledFlatList>{item.name}</StyledFlatList>
+        <StyledFlatList>{item.level}</StyledFlatList>
     </View>
 );
 const Projects = ({ item }) => {
     let final_mark = !item.final_mark ? 0 : item.final_mark;
-    let finalMarkColor = item["validated?"] ? "#00ff00" : "#ff0000";
+    let finalMarkColor = item["validated?"] ? "#32CD32" : "#ff0000";
     return (
         <View style={styles.item}>
-            <StyledText>{item.project.name}</StyledText>
+            <StyledFlatList>{item.project.name}</StyledFlatList>
             {/* <StyledText>{item.status}</StyledText> */}
             {item.status == "finished" ? (
-                <StyledText style={{ color: finalMarkColor }}>
+                <StyledFlatList style={{ color: finalMarkColor }}>
                     {final_mark}
-                </StyledText>
+                </StyledFlatList>
             ) : (
-                <StyledText>{item.status}</StyledText>
+                <StyledFlatList>{item.status}</StyledFlatList>
             )}
         </View>
     );
@@ -162,12 +164,16 @@ const Details = (props) => {
                             paddingLeft: "10%",
                             paddingRight: "10%",
                         }}
+                        buttonColor="#9CB9D8"
+                        // backgroundColor="#ff00ff"
                     />
                     <StyledLevel>
                         <StyledFull
                             level={(cursus?.level + "").split(".")[1]}
                         ></StyledFull>
-                        <StyledText>level : {cursus.level}</StyledText>
+                        <StyledTextLevel>
+                            level : {cursus.level}
+                        </StyledTextLevel>
                     </StyledLevel>
                 </>
             )}

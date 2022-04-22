@@ -2,6 +2,14 @@ import { useNavigate } from "react-router-native";
 import { View, Pressable, Text } from "react-native";
 import { useAuthRequest } from "expo-auth-session";
 import { useEffect } from "react";
+import styled from "styled-components";
+
+const StyledText = styled.Text`
+    color: ${(props) => props.theme.backgroundAPP};
+    background-color: ${(props) => props.theme.primaryColor};
+    padding: 20px;
+`;
+
 const config = {
     authorizationEndpoint: "https://api.intra.42.fr/oauth/authorize",
     tokenEndpoint: "https://api.intra.42.fr/oauth/token",
@@ -34,7 +42,7 @@ const AuthPage = () => {
                     promptAsync();
                 }}
             >
-                <Text style={{ fontSize: 40 }}>Authorize</Text>
+                <StyledText style={{ fontSize: 30 }}>Authorize</StyledText>
             </Pressable>
         </View>
     );

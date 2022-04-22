@@ -16,11 +16,7 @@ const Home = () => {
     const [accessToken, setAccessToken] = useState(null);
     const [load, setLoad] = useState(false);
     const [text, setText] = useState("");
-    // useEffect(() => {
-    //     getAccessToken().then((res) => {
-    //         setAccessToken(res);
-    //     });
-    // }, []);
+
     const getUser = () => {
         setLoad(true);
         if (text) {

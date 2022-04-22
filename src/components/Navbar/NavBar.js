@@ -29,7 +29,7 @@ const NavBar = ({ theme, setTheme, iconColor }) => {
     return (
         <StyledNav>
             <StyledLogoBox>
-                <Link to="/">
+                <Link to="/home">
                     <StyledLogo
                         source={{
                             uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/42_Logo.svg/1200px-42_Logo.svg.png",

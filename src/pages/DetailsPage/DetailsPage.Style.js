@@ -45,7 +45,7 @@ export const StyledText = styled.Text`
 
 export const StyledFlatList = styled.Text`
     font-size: 16px;
-    color: ${(props) => props.theme.primaryColor};
+    color: ${(props) => props.theme.barLevel};
     /* padding: 5px; */
 `;
 
@@ -77,7 +77,7 @@ export const StyledPikala = styled.View`
 
 export const StyledLevel = styled.View`
     height: 40px;
-    border: 1px solid #000000;
+    border: 1px solid ${(props) => props.theme.primaryColor};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,6 +92,6 @@ export const StyledFull = styled.View`
     left: 0;
     width: ${(props) => props.level}%;
     height: 100%;
-    background-color: ${(props) => props.theme.primaryColor};
+    background-color: ${(props) => props.theme.tertiaryColor};
     z-index: -10;
 `;
