@@ -8,6 +8,8 @@ import {
     StyledText,
     StyledCoalitionContainer,
     StyledPikala,
+    StyledLevel,
+    StyledFull,
 } from "./DetailsPage.Style";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { useEffect, useState } from "react";
@@ -19,20 +21,25 @@ const Skills = ({ item }) => (
     <View style={styles.item}>
         <StyledText>{item.name}</StyledText>
         <StyledText>{item.level}</StyledText>
-        {/* <Text style={styles.title}>{title}</Text> */}
     </View>
 );
-const Projects = ({ item }) => (
-    <View style={styles.item}>
-        <StyledText>{item.project.name}</StyledText>
-        {/* <StyledText>{item.status}</StyledText> */}
-        {item.status == "finished" ? (
-            <StyledText>{item.final_mark}</StyledText>
-        ) : (
-            <StyledText>{item.status}</StyledText>
-        )}
-    </View>
-);
+const Projects = ({ item }) => {
+    let final_mark = !item.final_mark ? 0 : item.final_mark;
+    let finalMarkColor = item["validated?"] ? "#00ff00" : "#ff0000";
+    return (
+        <View style={styles.item}>
+            <StyledText>{item.project.name}</StyledText>
+            {/* <StyledText>{item.status}</StyledText> */}
+            {item.status == "finished" ? (
+                <StyledText style={{ color: finalMarkColor }}>
+                    {final_mark}
+                </StyledText>
+            ) : (
+                <StyledText>{item.status}</StyledText>
+            )}
+        </View>
+    );
+};
 
 const Details = (props) => {
     const { state } = useLocation();
@@ -40,7 +47,7 @@ const Details = (props) => {
     const [selectedData, setSelectedData] = useState("p");
     // console.log(state.cursus);
     useEffect(() => {
-        console.log(cursus?.projects);
+        console.log((cursus?.level + "").split(".")[1]);
     }, [cursus]);
     const renderSkills = ({ item }) => <Skills item={item} />;
     const renderProjects = ({ item }) => <Projects item={item} />;
@@ -130,29 +137,40 @@ const Details = (props) => {
                     )}
                 </StyledCoalitionContainer>
             </View>
-            <SwitchSelector
-                initial={0}
-                onPress={(value) => setSelectedData(value)}
-                hasPadding
-                options={[
-                    {
-                        label: "projects",
-                        value: 0,
-                    },
-                    {
-                        label: "Skills",
-                        value: 1,
-                    },
-                ]}
-                testID="gender-switch-selector"
-                accessibilityLabel="gender-switch-selector"
-                style={{
-                    width: "100%",
-                    height: "10%",
-                    paddingLeft: "10%",
-                    paddingRight: "10%",
-                }}
-            />
+            {cursus && (
+                <>
+                    <SwitchSelector
+                        initial={0}
+                        onPress={(value) => setSelectedData(value)}
+                        hasPadding
+                        options={[
+                            {
+                                label: "projects",
+                                value: 0,
+                            },
+                            {
+                                label: "Skills",
+                                value: 1,
+                            },
+                        ]}
+                        testID="gender-switch-selector"
+                        accessibilityLabel="gender-switch-selector"
+                        style={{
+                            width: "100%",
+                            height: "10%",
+                            paddingLeft: "10%",
+                            paddingRight: "10%",
+                        }}
+                    />
+                    <StyledLevel>
+                        <StyledFull
+                            level={(cursus?.level + "").split(".")[1]}
+                        ></StyledFull>
+                        <StyledText>level : {cursus.level}</StyledText>
+                    </StyledLevel>
+                </>
+            )}
+
             {selectedData == 1 ? (
                 <StyledPikala>
                     {cursus?.skills?.length > 0 ? (
@@ -168,7 +186,7 @@ const Details = (props) => {
                 <StyledPikala>
                     {cursus?.projects?.length > 0 ? (
                         <FlatList
-                            style={{ flex: 1 }}
+                            style={{ flex: 1, marginTop: 20 }}
                             data={cursus.projects}
                             renderItem={renderProjects}
                             keyExtractor={(item) => item.id}

@@ -10,6 +10,8 @@ export const StyledUserInfo = styled.View`
     display: flex;
     flex-direction: row;
     padding: 10px;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const StyledProfileImageContainer = styled.View`
@@ -32,7 +34,6 @@ export const StyledInfoBox = styled.View`
     height: 80%;
     /* padding: 20px; */
     align-items: center;
-    justify-content: space-around;
     justify-content: space-between;
 `;
 
@@ -59,4 +60,25 @@ export const StyledPikala = styled.View`
     height: 300px;
     /* margin-bottom: 20px; */
     padding: 0 20px;
+`;
+
+export const StyledLevel = styled.View`
+    height: 40px;
+    border: 1px solid #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 0px 30px;
+    overflow: hidden;
+    position: relative;
+`;
+export const StyledFull = styled.View`
+    border-radius: 20px;
+    position: absolute;
+    left: 0;
+    width: ${(props) => props.level}%;
+    height: 100%;
+    background-color: #00f000;
+    z-index: -10;
 `;

@@ -28,7 +28,10 @@ const Home = () => {
                 .then((res) => {
                     navigate("/details", { state: res });
                 })
-                .catch((err) => console.log(err.response));
+                .catch((err) => {
+                    alert("not found");
+                    setLoad(false);
+                });
         }
     };
     return (
