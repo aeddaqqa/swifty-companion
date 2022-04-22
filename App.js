@@ -1,20 +1,12 @@
 import styled, { ThemeProvider } from "styled-components/native";
-import {
-    NativeRouter,
-    Navigate,
-    Route,
-    Routes,
-    useNavigate,
-} from "react-router-native";
+import { NativeRouter, Route, Routes } from "react-router-native";
 import Home from "./src/pages/HomePage/HomePage.js";
 import Details from "./src/pages/DetailsPage/DetailsPage.js";
 import { Theme } from "./src/utils/constants.js";
 import NavBar from "./src/components/Navbar/NavBar.js";
 import { StatusBar, Platform } from "react-native";
 import { useState } from "react";
-import { Pressable, View, Text } from "react-native";
-import { useAuthRequest } from "expo-auth-session";
-import { useEffect } from "react";
+import AuthPage from "./src/pages/AuthPage/AuthPage.js";
 
 const StyledApp = styled.SafeAreaView`
     flex: 1;
@@ -22,26 +14,9 @@ const StyledApp = styled.SafeAreaView`
     background-color: ${(props) => props.theme.backgroundAPP};
 `;
 
-const config = {
-    authorizationEndpoint: "https://api.intra.42.fr/oauth/authorize",
-    tokenEndpoint: "https://api.intra.42.fr/oauth/token",
-};
-
 export default function App() {
     const [theme, setTheme] = useState(true);
-    const [request, response, promptAsync] = useAuthRequest(
-        {
-            clientId:
-                "192a1edb35080133cfec1769349a81734b35f9e901e8945f41c4df83ff3aab73",
-            redirectUri: "exp://pikala",
-        },
-        config
-    );
-    useEffect(() => {
-        console.log(response);
-        // if (response.type == "success")
-        // Navigate("")
-    }, [response]);
+
     return (
         <ThemeProvider theme={!theme ? Theme.dark : Theme.light}>
             <NativeRouter>
@@ -57,29 +32,7 @@ export default function App() {
                         iconColor={Theme.light.tertiaryColor}
                     />
                     <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <Pressable
-                                        onPress={() => {
-                                            promptAsync();
-                                        }}
-                                    >
-                                        <Text style={{ fontSize: 40 }}>
-                                            hello
-                                        </Text>
-                                    </Pressable>
-                                </View>
-                            }
-                        />
+                        <Route path="/" element={<AuthPage />} />
 
                         <Route path="/home" element={<Home />} />
                         <Route path="/details" element={<Details />} />

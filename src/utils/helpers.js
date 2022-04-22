@@ -79,7 +79,6 @@ const parseData = ({ user, coalition }) => {
 
     let data = [];
     let elem = coalition.length;
-    // console.log(cursus_users);
     cursus_users.reverse().forEach((cursus, index) => {
         const {
             skills,
