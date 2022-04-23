@@ -20,13 +20,12 @@ const AuthPage = () => {
         {
             clientId:
                 "192a1edb35080133cfec1769349a81734b35f9e901e8945f41c4df83ff3aab73",
-            redirectUri: "exp://pikala",
+            redirectUri: "com.farwila.swifty-companion://callback",
         },
         config
     );
     useEffect(() => {
         if (response?.type == "success") navigate("/home");
-        // Navigate("")
     }, [response]);
     return (
         <View

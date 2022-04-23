@@ -48,10 +48,7 @@ const Details = (props) => {
     const { state } = useLocation();
     const [cursus, setCursus] = useState(null);
     const [selectedData, setSelectedData] = useState("p");
-    // console.log(state.cursus);
-    useEffect(() => {
-        console.log((cursus?.level + "").split(".")[1]);
-    }, [cursus]);
+
     const renderSkills = ({ item }) => <Skills item={item} />;
     const renderProjects = ({ item }) => <Projects item={item} />;
     return (
@@ -94,7 +91,6 @@ const Details = (props) => {
                         data={state.cursus}
                         onSelect={(selectedItem, index) => {
                             setCursus(selectedItem);
-                            console.log(selectedItem.name, index);
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             // text represented after item is selected
